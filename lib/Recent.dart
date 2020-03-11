@@ -17,11 +17,12 @@ class _RecentState extends State<Recent> {
   List user = [];
   List current = [];
   String idCabang;
-  _RecentState({this.idCabang});  
+  _RecentState({this.idCabang});
 
   Future ambildata() async {
     http.Response hasil = await http.get(
-        Uri.encodeFull("http://192.168.0.117/nomAdmin/Api/getTrxByCabang/" + idCabang),
+        Uri.encodeFull(
+            "http://192.168.0.117/nomAdmin/Api/getTrxByCabang/" + idCabang),
         headers: {"Accept": "application/json"});
     this.setState(() {
       current = json.decode(hasil.body);
@@ -65,58 +66,74 @@ class _RecentState extends State<Recent> {
                   return Column(
                     children: <Widget>[
                       FlatButton(
-                        child: Row(
+                        child: Column(
                           children: <Widget>[
-                            Icon(
-                              Icons.calendar_today,
-                              color: Color.fromRGBO(243, 156, 18, 20),
-                              size: 15.0,
-                            ),
-                            Text(
-                              " " + current[index]['tanggal'].toString() + "  ",
-                              style: TextStyle(
-                                fontFamily: 'ZCOOL QingKe HuangYou',
-                                color: Colors.black,
-                                fontSize: 15,
-                              ),
-                              textAlign: TextAlign.left,
-                            ),
-                            Icon(
-                              Icons.location_on,
-                              color: Color.fromRGBO(243, 156, 18, 20),
-                              size: 15.0,
-                            ),
-                            Expanded(
-                              child: Text(
-                                current[index]['nama'].toString(),
-                                style: TextStyle(
-                                  fontFamily: 'ZCOOL QingKe HuangYou',
-                                  color: Colors.black,
-                                  fontSize: 15,
+                            Row(
+                              children: <Widget>[
+                                Icon(
+                                  Icons.calendar_today,
+                                  color: Color.fromRGBO(243, 156, 18, 20),
+                                  size: 20,
                                 ),
-                                textAlign: TextAlign.left,
-                              ),
+                                Text(
+                                  " " +
+                                      current[index]['tanggal'].toString() +
+                                      "  ",
+                                  style: TextStyle(
+                                    fontFamily: 'ZCOOL QingKe HuangYou',
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                                Icon(
+                                  Icons.local_atm,
+                                  color: Color.fromRGBO(243, 156, 18, 20),
+                                  size: 20,
+                                ),
+                                Text(
+                                  " " +
+                                      current[index]['total'].toString() +
+                                      "  ",
+                                  style: TextStyle(
+                                    fontFamily: 'ZCOOL QingKe HuangYou',
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                                Icon(
+                                  current[index]['status'].toString() == "0"
+                                      ? Icons.close
+                                      : Icons.check_box,
+                                  color: Color.fromRGBO(243, 156, 18, 20),
+                                  size: 25.0,
+                                ),
+                              ],
                             ),
-                            Icon(
-                              Icons.local_atm,
-                              color: Color.fromRGBO(243, 156, 18, 20),
-                              size: 15.0,
-                            ),
-                            Text(
-                              " " + current[index]['total'].toString() + "  ",
-                              style: TextStyle(
-                                fontFamily: 'ZCOOL QingKe HuangYou',
-                                color: Colors.black,
-                                fontSize: 15,
-                              ),
-                              textAlign: TextAlign.left,
-                            ),
-                            Icon(
-                              current[index]['status'].toString() == "0"
-                                  ? Icons.close
-                                  : Icons.check_box,
-                              color: Color.fromRGBO(243, 156, 18, 20),
-                              size: 25.0,
+                            Row(
+                              children: <Widget>[
+                                Icon(
+                                  Icons.location_on,
+                                  color: Color.fromRGBO(243, 156, 18, 20),
+                                  size: 20,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    "(" +
+                                        current[index]['user'].toString() +
+                                        ")" +
+                                        "--" +
+                                        current[index]['alamat'].toString(),
+                                    style: TextStyle(
+                                      fontFamily: 'ZCOOL QingKe HuangYou',
+                                      color: Colors.black,
+                                      fontSize: 20,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -124,12 +141,14 @@ class _RecentState extends State<Recent> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => DetailOrder(notrx:  current[index]['notrx'].toString()),
+                              builder: (context) => DetailOrder(
+                                  notrx: current[index]['notrx'].toString()),
                             ),
                           );
                         },
                       ),
                       Divider(
+                        thickness: 2,
                         color: Color.fromRGBO(243, 156, 18, 10),
                       ),
                     ],

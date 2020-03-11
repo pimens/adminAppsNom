@@ -19,9 +19,9 @@ class _CabangState extends State<Cabang> {
       cabang = json.decode(hasil.body);
     });
   }
-
   @override
   void initState() {
+    super.initState();
     this.ambildata();
   }
 
@@ -70,16 +70,34 @@ class _CabangState extends State<Cabang> {
                               textAlign: TextAlign.left,
                             ),
                             Expanded(
-                              child: Text(
-                                cabang[index]['nama'].toString(),
-                                style: TextStyle(
-                                  fontFamily: 'ZCOOL QingKe HuangYou',
-                                  color: Colors.black,
-                                  fontSize: 21,
-                                ),
-                                textAlign: TextAlign.left,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    cabang[index]['nama'].toString(),
+                                    style: TextStyle(
+                                      fontFamily: 'ZCOOL QingKe HuangYou',
+                                      color: Colors.black,
+                                      fontSize: 21,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  Text(
+                                    cabang[index]['alamat'].toString(),
+                                    style: TextStyle(
+                                      fontFamily: 'ZCOOL QingKe HuangYou',
+                                      color: Colors.black,
+                                      fontSize: 15,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ],
                               ),
                             ),
+                            cabang[index]['jumlah']==Null ? 
+                            Text("")
+                            :
                             Container(
                               padding: EdgeInsets.all(6),
                               margin: EdgeInsets.only(top: 10, left: 10),

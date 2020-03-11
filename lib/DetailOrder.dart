@@ -1,3 +1,4 @@
+import 'package:KimochiAdmin/Cabang.dart';
 import 'package:flutter/material.dart';
 import 'dart:core';
 import 'package:http/http.dart' as http;
@@ -5,6 +6,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:url_launcher/url_launcher.dart';
+
 class DetailOrder extends StatefulWidget {
   String notrx;
   DetailOrder({this.notrx});
@@ -26,42 +28,51 @@ class _DetailOrderState extends State<DetailOrder> {
       order = json.decode(hasil.body);
     });
   }
- void decode() {
+
+  Future setFinish() async {
+    http.Response hasil = await http.get(
+        Uri.encodeFull("http://192.168.0.117/nomAdmin/Api/finish/" + notrx),
+        headers: {"Accept": "application/json"});
+  }
+
+  void decode() {
     String na = "iman";
     String tt = "";
     String pembuka = "Terimakasih+Kak+" +
-        order[0]['user']+
+        order[0]['user'] +
         "+Sudah+Pesan+Minuman+di+Nomimasu.%0D%0A%0D%0ABerikut+pesenan+kakak+%3A%0D%0A%0A";
     String penutup =
         "%0ASelamat+kakak+dapat+voucher+exclusive+belanja+10x+%2810poin%29+dengan+varian+apapun+di+Nomimasu+gratis+1+produk+minuman+bebas+pilih.+Dan+pesanan+ini+mendapatkan+1+poin+%F0%9F%91%8D%0D%0A%0D%0ASimpan+struk+digital+ini+ya+Kak%2C+dan+Simpan+No+Kami+ini+juga+dengan+nama+Nomimasu-Sejenis+Minuman+untuk+mendapatkan+promo-promo+menarik+lainnya+serta+undian+kejutan+setiap+akhir+bulannya..%0D%0A%0D%0AArigatou+Gozaimasu+%F0%9F%98%8A%F0%9F%99%8F%F0%9F%8F%BB";
     for (int i = 0; i < order.length; i++) {
-    
       tt = tt +
           order[i]['jumlah'] +
           "+" +
           order[i]['nama'].toString() +
-          "+=+" +order[i]['subtotal'].toString()
-          +
+          "+=+" +
+          order[i]['subtotal'].toString() +
           "%0A";
     }
     tt = tt + "%0AJadi+Totalnya+:+" + total().toString() + "%0A";
     setState(() {
-      dec = pembuka + tt + penutup;     
+      dec = pembuka + tt + penutup;
     });
   }
+
   @override
   void initState() {
     super.initState();
     this.ambildata();
     total();
   }
- double total() {
+
+  double total() {
     double x = 0;
     for (int i = 0; i < order.length; i++) {
       x = x + (double.parse(order[i]['subtotal']));
     }
     return x;
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -79,7 +90,7 @@ class _DetailOrderState extends State<DetailOrder> {
         ),
       ),
       body: Stack(
-        children: <Widget>[        
+        children: <Widget>[
           Container(
             decoration:
                 new BoxDecoration(color: Color.fromRGBO(236, 240, 241, 10)),
@@ -153,7 +164,7 @@ class _DetailOrderState extends State<DetailOrder> {
                                   ),
                                 ),
                                 Text(
-                                  order[index]['subtotal'].toString()+" ",
+                                  order[index]['subtotal'].toString() + " ",
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 15,
@@ -172,7 +183,7 @@ class _DetailOrderState extends State<DetailOrder> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(bottom:10),
+                    margin: EdgeInsets.only(bottom: 10),
                     child: Text(
                       "Total : " + total().toString(),
                       style: TextStyle(
@@ -182,7 +193,8 @@ class _DetailOrderState extends State<DetailOrder> {
                       ),
                     ),
                   ),
-                   Row(
+                  order[0]['status']=="0"?
+Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       SizedBox(
@@ -190,22 +202,42 @@ class _DetailOrderState extends State<DetailOrder> {
                         child: FlatButton(
                           textColor: Color.fromRGBO(243, 156, 18, 20),
                           color: Colors.black,
-                          onPressed: () {                           
-                              decode();
-                              launch("https://api.whatsapp.com/send?phone=" +
-                                  order[0]['nomorhp'] +
-                                  "&text=" +
-                                  dec);
-                            
+                          onPressed: () {
+                            decode();
+                            setFinish();
+                            launch("https://api.whatsapp.com/send?phone=" +
+                                order[0]['nomorhp'] +
+                                "&text=" +
+                                dec);
                           },
                           child: Text(
-                           "Finish",
+                            "Kirim Struk",
                             style: TextStyle(fontSize: 20.0),
                           ),
                         ),
-                      ),                     
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 2.1,
+                        child: FlatButton(
+                          textColor: Color.fromRGBO(243, 156, 18, 20),
+                          color: Colors.black,
+                          onPressed: () {
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => Cabang()),
+                                (Route<dynamic> route) => false);
+                          },
+                          child: Text(
+                            "Selesai",
+                            // isSend == 0 ? "---" : "Add Invoices",
+                            style: TextStyle(fontSize: 20.0),
+                          ),
+                        ),
+                      ),
                     ],
-                  ),
+                  )
+                  :Text(""),
+
                 ],
               ),
             ),
