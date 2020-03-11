@@ -3,12 +3,7 @@ import 'dart:core';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-
-import 'package:KimochiAdmin/Order.dart';
-
 import 'Recent.dart';
-import 'comp/Draw.dart';
-
 class Cabang extends StatefulWidget {
   @override
   _CabangState createState() => _CabangState();

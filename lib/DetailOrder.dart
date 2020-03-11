@@ -3,6 +3,8 @@ import 'dart:core';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
+
+import 'package:url_launcher/url_launcher.dart';
 class DetailOrder extends StatefulWidget {
   String notrx;
   DetailOrder({this.notrx});
@@ -13,6 +15,7 @@ class DetailOrder extends StatefulWidget {
 class _DetailOrderState extends State<DetailOrder> {
   String notrx;
   List order = [];
+  String dec;
   _DetailOrderState({this.notrx});
 
   Future ambildata() async {
@@ -23,7 +26,29 @@ class _DetailOrderState extends State<DetailOrder> {
       order = json.decode(hasil.body);
     });
   }
-
+ void decode() {
+    String na = "iman";
+    String tt = "";
+    String pembuka = "Terimakasih+Kak+" +
+        order[0]['user']+
+        "+Sudah+Pesan+Minuman+di+Nomimasu.%0D%0A%0D%0ABerikut+pesenan+kakak+%3A%0D%0A%0A";
+    String penutup =
+        "%0ASelamat+kakak+dapat+voucher+exclusive+belanja+10x+%2810poin%29+dengan+varian+apapun+di+Nomimasu+gratis+1+produk+minuman+bebas+pilih.+Dan+pesanan+ini+mendapatkan+1+poin+%F0%9F%91%8D%0D%0A%0D%0ASimpan+struk+digital+ini+ya+Kak%2C+dan+Simpan+No+Kami+ini+juga+dengan+nama+Nomimasu-Sejenis+Minuman+untuk+mendapatkan+promo-promo+menarik+lainnya+serta+undian+kejutan+setiap+akhir+bulannya..%0D%0A%0D%0AArigatou+Gozaimasu+%F0%9F%98%8A%F0%9F%99%8F%F0%9F%8F%BB";
+    for (int i = 0; i < order.length; i++) {
+    
+      tt = tt +
+          order[i]['jumlah'] +
+          "+" +
+          order[i]['nama'].toString() +
+          "+=+" +order[i]['subtotal'].toString()
+          +
+          "%0A";
+    }
+    tt = tt + "%0AJadi+Totalnya+:+" + total().toString() + "%0A";
+    setState(() {
+      dec = pembuka + tt + penutup;     
+    });
+  }
   @override
   void initState() {
     super.initState();
@@ -156,6 +181,30 @@ class _DetailOrderState extends State<DetailOrder> {
                         fontFamily: 'ZCOOL QingKe HuangYou',
                       ),
                     ),
+                  ),
+                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 2.1,
+                        child: FlatButton(
+                          textColor: Color.fromRGBO(243, 156, 18, 20),
+                          color: Colors.black,
+                          onPressed: () {                           
+                              decode();
+                              launch("https://api.whatsapp.com/send?phone=" +
+                                  order[0]['nomorhp'] +
+                                  "&text=" +
+                                  dec);
+                            
+                          },
+                          child: Text(
+                           "Finish",
+                            style: TextStyle(fontSize: 20.0),
+                          ),
+                        ),
+                      ),                     
+                    ],
                   ),
                 ],
               ),
