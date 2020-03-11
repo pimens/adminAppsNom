@@ -193,51 +193,55 @@ class _DetailOrderState extends State<DetailOrder> {
                       ),
                     ),
                   ),
-                  order[0]['status']=="0"?
-Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 2.1,
-                        child: FlatButton(
-                          textColor: Color.fromRGBO(243, 156, 18, 20),
-                          color: Colors.black,
-                          onPressed: () {
-                            decode();
-                            setFinish();
-                            launch("https://api.whatsapp.com/send?phone=" +
-                                order[0]['nomorhp'] +
-                                "&text=" +
-                                dec);
-                          },
-                          child: Text(
-                            "Kirim Struk",
-                            style: TextStyle(fontSize: 20.0),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 2.1,
-                        child: FlatButton(
-                          textColor: Color.fromRGBO(243, 156, 18, 20),
-                          color: Colors.black,
-                          onPressed: () {
-                            Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                    builder: (context) => Cabang()),
-                                (Route<dynamic> route) => false);
-                          },
-                          child: Text(
-                            "Selesai",
-                            // isSend == 0 ? "---" : "Add Invoices",
-                            style: TextStyle(fontSize: 20.0),
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
-                  :Text(""),
-
+                  order.length == 0
+                      ? Text("")
+                      : order[0]['status'] == "0"
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.1,
+                                  child: FlatButton(
+                                    textColor: Color.fromRGBO(243, 156, 18, 20),
+                                    color: Colors.black,
+                                    onPressed: () {
+                                      decode();
+                                      setFinish();
+                                      launch(
+                                          "https://api.whatsapp.com/send?phone=" +
+                                              order[0]['nomorhp'] +
+                                              "&text=" +
+                                              dec);
+                                    },
+                                    child: Text(
+                                      "Kirim Struk",
+                                      style: TextStyle(fontSize: 20.0),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.1,
+                                  child: FlatButton(
+                                    textColor: Color.fromRGBO(243, 156, 18, 20),
+                                    color: Colors.black,
+                                    onPressed: () {
+                                      Navigator.of(context).pushAndRemoveUntil(
+                                          MaterialPageRoute(
+                                              builder: (context) => Cabang()),
+                                          (Route<dynamic> route) => false);
+                                    },
+                                    child: Text(
+                                      "Selesai",
+                                      // isSend == 0 ? "---" : "Add Invoices",
+                                      style: TextStyle(fontSize: 20.0),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Text(""),
                 ],
               ),
             ),

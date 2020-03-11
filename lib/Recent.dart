@@ -51,11 +51,12 @@ class _RecentState extends State<Recent> {
         ),
       ),
       body: Container(
-        margin: EdgeInsets.only(top: 7),
+        decoration: new BoxDecoration(color: Colors.black),
+        // margin: EdgeInsets.only(top: 7),
         child: Column(
           children: <Widget>[
             Expanded(
-              child: ListView.builder(
+              child: ListView.builder(                
                 scrollDirection: Axis.vertical,
                 primary: false,
                 shrinkWrap: true,
@@ -81,7 +82,7 @@ class _RecentState extends State<Recent> {
                                       "  ",
                                   style: TextStyle(
                                     fontFamily: 'ZCOOL QingKe HuangYou',
-                                    color: Colors.black,
+                                    color: Colors.white,
                                     fontSize: 20,
                                   ),
                                   textAlign: TextAlign.left,
@@ -97,7 +98,7 @@ class _RecentState extends State<Recent> {
                                       "  ",
                                   style: TextStyle(
                                     fontFamily: 'ZCOOL QingKe HuangYou',
-                                    color: Colors.black,
+                                    color: Colors.white,
                                     fontSize: 20,
                                   ),
                                   textAlign: TextAlign.left,
@@ -127,7 +128,7 @@ class _RecentState extends State<Recent> {
                                         current[index]['alamat'].toString(),
                                     style: TextStyle(
                                       fontFamily: 'ZCOOL QingKe HuangYou',
-                                      color: Colors.black,
+                                      color: Colors.white,
                                       fontSize: 20,
                                     ),
                                     textAlign: TextAlign.left,
