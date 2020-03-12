@@ -29,10 +29,12 @@ class _DetailOrderState extends State<DetailOrder> {
     });
   }
 
-  Future setFinish() async {
+  Future setFinish(String status) async {
     http.Response hasil = await http.get(
-        Uri.encodeFull("http://192.168.0.117/nomAdmin/Api/finish/" + notrx),
+        Uri.encodeFull(
+            "http://192.168.0.117/nomAdmin/Api/finish/" + notrx + "/" + status),
         headers: {"Accept": "application/json"});
+    ambildata();
   }
 
   void decode() {
@@ -200,14 +202,67 @@ class _DetailOrderState extends State<DetailOrder> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
                                 SizedBox(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: FlatButton(
+                                    textColor: Color.fromRGBO(243, 156, 18, 20),
+                                    color: Colors.black,
+                                    onPressed: () {
+                                      //kondisi 0 baru masuk order// ketika klik set jadi 2
+                                      setFinish("2");
+                                    },
+                                    child: Text(
+                                      "Terima Order & Proses",
+                                      style: TextStyle(
+                                          fontSize: 30.0,
+                                          fontFamily: 'ZCOOL QingKe HuangYou'),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Text(""),
+                  order.length == 0
+                      ? Text("")
+                      : order[0]['status'] == "2"
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: FlatButton(
+                                    textColor: Color.fromRGBO(243, 156, 18, 20),
+                                    color: Colors.black,
+                                    onPressed: () {
+                                      //konidisi 2 order sudah diterima// diklik jadi 3 artinya akan diantar
+
+                                      setFinish("3");
+                                    },
+                                    child: Text(
+                                      "Proses Antar",
+                                      style: TextStyle(
+                                          fontSize: 30.0,
+                                          fontFamily: 'ZCOOL QingKe HuangYou'),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Text(""),
+                  order.length == 0
+                      ? Text("")
+                      : order[0]['status'] == "3"
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width / 2.1,
                                   child: FlatButton(
                                     textColor: Color.fromRGBO(243, 156, 18, 20),
                                     color: Colors.black,
                                     onPressed: () {
+                                      //3 artinya sedang diantar// dan klik finish maka status =1
                                       decode();
-                                      setFinish();
                                       launch(
                                           "https://api.whatsapp.com/send?phone=" +
                                               order[0]['nomorhp'] +
@@ -216,7 +271,10 @@ class _DetailOrderState extends State<DetailOrder> {
                                     },
                                     child: Text(
                                       "Kirim Struk",
-                                      style: TextStyle(fontSize: 20.0),
+                                      style: TextStyle(
+                                        fontSize: 30.0,
+                                        fontFamily: 'ZCOOL QingKe HuangYou',
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -227,6 +285,7 @@ class _DetailOrderState extends State<DetailOrder> {
                                     textColor: Color.fromRGBO(243, 156, 18, 20),
                                     color: Colors.black,
                                     onPressed: () {
+                                      setFinish("1");
                                       Navigator.of(context).pushAndRemoveUntil(
                                           MaterialPageRoute(
                                               builder: (context) => Cabang()),
@@ -234,8 +293,10 @@ class _DetailOrderState extends State<DetailOrder> {
                                     },
                                     child: Text(
                                       "Selesai",
-                                      // isSend == 0 ? "---" : "Add Invoices",
-                                      style: TextStyle(fontSize: 20.0),
+                                      style: TextStyle(
+                                        fontSize: 30.0,
+                                        fontFamily: 'ZCOOL QingKe HuangYou',
+                                      ),
                                     ),
                                   ),
                                 ),

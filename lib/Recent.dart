@@ -106,7 +106,10 @@ class _RecentState extends State<Recent> {
                                 Icon(
                                   current[index]['status'].toString() == "0"
                                       ? Icons.close
-                                      : Icons.check_box,
+                                      :  current[index]['status'].toString()=="1" ? Icons.check_box:
+                                       current[index]['status'].toString()=="2" ? Icons.playlist_add_check:
+                                       Icons.motorcycle
+                                      ,
                                   color: Color.fromRGBO(243, 156, 18, 20),
                                   size: 25.0,
                                 ),
