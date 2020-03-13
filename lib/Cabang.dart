@@ -57,7 +57,7 @@ class _CabangState extends State<Cabang> {
                   scrollDirection: Axis.vertical,
                   primary: false,
                   shrinkWrap: true,
-                  // physics: NeverScrollableScrollPhysics(),
+                  physics: AlwaysScrollableScrollPhysics(),
                   itemCount: cabang == null ? 0 : cabang.length,
                   itemBuilder: (BuildContext context, int index) {
                     // Map menu = dataMenu[index];
@@ -156,6 +156,9 @@ class _CabangState extends State<Cabang> {
                 ),
               ),
             ),
+            SizedBox(
+                width: MediaQuery.of(context).size.width / 2.1,
+                child: Text("")),
           ],
         ),
       ),

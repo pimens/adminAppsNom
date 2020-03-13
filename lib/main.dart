@@ -33,7 +33,7 @@ class Sp extends StatelessWidget {
       seconds: 5,
       navigateAfterSeconds: new Cabang(),
       title: Text(
-        "N o m i m a s u",
+        "",
         style: TextStyle(
           fontSize: 30,
           fontFamily: 'Bangers-Regular',
@@ -43,11 +43,11 @@ class Sp extends StatelessWidget {
       ),
       // image: new Image.network('https://i.imgur.com/TyCSG9A.png'),
       image: Image.asset("assets/logo.jpg"),
-      backgroundColor: Color.fromRGBO(226, 225, 223, 20),
+      backgroundColor: Colors.white,
       styleTextUnderTheLoader: new TextStyle(),
-      photoSize: 100.0,
+      photoSize: 150.0,
       onClick: () => print("KimochiAdmin"),
-      loaderColor: Color.fromRGBO(243, 156, 18, 20),
+      loaderColor: Colors.red,
     );
   }
 }
