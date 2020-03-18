@@ -22,10 +22,13 @@ class _CabangState extends State<Cabang> {
     });
   }
 
+  Timer timer;
+
   @override
   void initState() {
     super.initState();
     this.ambildata();
+    timer = Timer.periodic(Duration(seconds: 15), (Timer t) => ambildata());
   }
 
   @override
