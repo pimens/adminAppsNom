@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'Recent.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class Cabang extends StatefulWidget {
   @override
@@ -12,6 +13,10 @@ class Cabang extends StatefulWidget {
 
 class _CabangState extends State<Cabang> {
   List cabang = [];
+  String jumlah = "99999";
+  String last = "0";
+
+  var flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   var refreshkey = GlobalKey<RefreshIndicatorState>();
   Future ambildata() async {
     http.Response hasil = await http.get(
@@ -22,13 +27,71 @@ class _CabangState extends State<Cabang> {
     });
   }
 
+  Future notif() async {
+    http.Response hasil = await http.get(
+        Uri.encodeFull("http://192.168.0.117/nomAdmin/Api/getNewTrx"),
+        headers: {"Accept": "application/json"});
+    this.setState(() {
+      if(jumlah=="99999"){
+        //j=5,l=5
+        jumlah = hasil.body;
+        last = hasil.body;
+      }else{
+        //j=5//l=6
+        last = hasil.body;   
+        if(int.parse(jumlah)<int.parse(last)){
+          _showNotification();
+        }
+        jumlah=last;
+      }
+      
+    
+    });
+  }
+
   Timer timer;
 
   @override
   void initState() {
     super.initState();
     this.ambildata();
-    timer = Timer.periodic(Duration(seconds: 15), (Timer t) => ambildata());
+    var initializationSettingsAndroid =
+        AndroidInitializationSettings('app_icon');
+    var initializationSettingsIOS = IOSInitializationSettings();
+    var initializationSettings = InitializationSettings(
+        initializationSettingsAndroid, initializationSettingsIOS);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectNotification);
+    timer = Timer.periodic(Duration(seconds: 10), (Timer t) {
+      ambildata();
+      notif();      
+    });
+  }
+
+  Future onSelectNotification(String payload) async {
+    if (payload != null) {
+      print('notification payload: ' + payload);
+    }
+    await Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => Cabang()),
+        (Route<dynamic> route) => false);
+    // await Navigator.push(
+    //   context,
+    //   MaterialPageRoute(builder: (context) => SecondScreen(payload)),
+    // );
+  }
+
+  Future _showNotification() async {
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+        'your channel id', 'your channel name', 'your channel description',
+        importance: Importance.Max, priority: Priority.High);
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+    var platformChannelSpecifics = NotificationDetails(
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+    String trendingNewsId = '5';
+    await flutterLocalNotificationsPlugin.show(
+        0, 'Order Baru', 'Ada Order Baru gan', platformChannelSpecifics,
+        payload: trendingNewsId);
   }
 
   @override
@@ -52,6 +115,7 @@ class _CabangState extends State<Cabang> {
         margin: EdgeInsets.only(top: 7),
         child: Column(
           children: <Widget>[
+            Text(jumlah),
             Expanded(
               child: RefreshIndicator(
                 key: refreshkey,
