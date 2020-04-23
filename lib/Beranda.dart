@@ -28,7 +28,7 @@ class _BerandaState extends State<Beranda> {
         dataMenu = content;
       });
     }
-    return 'success!';
+    return 'success!!';
   }
 
   _BerandaState() {
