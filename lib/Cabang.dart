@@ -20,7 +20,7 @@ class _CabangState extends State<Cabang> {
   var refreshkey = GlobalKey<RefreshIndicatorState>();
   Future ambildata() async {
     http.Response hasil = await http.get(
-        Uri.encodeFull("http://192.168.0.117/nomAdmin/Api/getCabangOrder"),
+        Uri.encodeFull("http://192.168.43.184/nomAdmin/Api/getCabangOrder"),
         headers: {"Accept": "application/json"});
     this.setState(() {
       cabang = json.decode(hasil.body);
@@ -29,23 +29,21 @@ class _CabangState extends State<Cabang> {
 
   Future notif() async {
     http.Response hasil = await http.get(
-        Uri.encodeFull("http://192.168.0.117/nomAdmin/Api/getNewTrx"),
+        Uri.encodeFull("http://192.168.43.184/nomAdmin/Api/getNewTrx"),
         headers: {"Accept": "application/json"});
     this.setState(() {
-      if(jumlah=="99999"){
+      if (jumlah == "99999") {
         //j=5,l=5
         jumlah = hasil.body;
         last = hasil.body;
-      }else{
+      } else {
         //j=5//l=6
-        last = hasil.body;   
-        if(int.parse(jumlah)<int.parse(last)){
+        last = hasil.body;
+        if (int.parse(jumlah) < int.parse(last)) {
           _showNotification();
         }
-        jumlah=last;
+        jumlah = last;
       }
-      
-    
     });
   }
 
@@ -64,7 +62,7 @@ class _CabangState extends State<Cabang> {
         onSelectNotification: onSelectNotification);
     timer = Timer.periodic(Duration(seconds: 10), (Timer t) {
       ambildata();
-      notif();      
+      notif();
     });
   }
 
@@ -115,7 +113,6 @@ class _CabangState extends State<Cabang> {
         margin: EdgeInsets.only(top: 7),
         child: Column(
           children: <Widget>[
-            Text(jumlah),
             Expanded(
               child: RefreshIndicator(
                 key: refreshkey,
@@ -135,7 +132,8 @@ class _CabangState extends State<Cabang> {
                             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Container(
-                                padding: EdgeInsets.all(15),
+                                padding: EdgeInsets.only(
+                                    left: 5, right: 5, top: 10, bottom: 10),
                                 margin: EdgeInsets.only(right: 13),
                                 decoration: new BoxDecoration(
                                   shape: BoxShape.rectangle,
@@ -143,14 +141,18 @@ class _CabangState extends State<Cabang> {
                                   borderRadius: new BorderRadius.all(
                                       new Radius.circular(10.0)),
                                 ),
-                                child: Text(
-                                  (index + 1).toString() + "     ",
-                                  softWrap: true,
-                                  style: TextStyle(
-                                      fontSize: 40,
-                                      color: Color.fromRGBO(243, 156, 18, 20),
-                                      fontFamily: 'ZCOOL QingKe HuangYou'),
-                                  textAlign: TextAlign.center,
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width / 7,
+                                  // height: MediaQuery.of(context).size.height / 13,
+                                  child: Text(
+                                    (index + 1).toString() + "",
+                                    softWrap: true,
+                                    style: TextStyle(
+                                        fontSize: 40,
+                                        color: Color.fromRGBO(243, 156, 18, 20),
+                                        fontFamily: 'ZCOOL QingKe HuangYou'),
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
                               Expanded(
@@ -237,7 +239,7 @@ class _CabangState extends State<Cabang> {
         atTop:
             true); // change atTop to false to show progress indicator at bottom
 
-    await Future.delayed(Duration(seconds: 2)); //wait here for 2 second
+    await Future.delayed(Duration(seconds: 2)); //wait herxe for 2 second
     ambildata();
   }
 }

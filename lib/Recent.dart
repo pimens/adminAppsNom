@@ -22,7 +22,7 @@ class _RecentState extends State<Recent> {
   Future ambildata() async {
     http.Response hasil = await http.get(
         Uri.encodeFull(
-            "http://192.168.0.117/nomAdmin/Api/getTrxByCabang/" + idCabang),
+            "http://192.168.43.184/nomAdmin/Api/getTrxByCabang/" + idCabang),
         headers: {"Accept": "application/json"});
     this.setState(() {
       current = json.decode(hasil.body);

@@ -22,7 +22,7 @@ class _DetailOrderState extends State<DetailOrder> {
 
   Future ambildata() async {
     http.Response hasil = await http.get(
-        Uri.encodeFull("http://192.168.0.117/nomAdmin/Api/getTrxById/" + notrx),
+        Uri.encodeFull("http://192.168.43.184/nomAdmin/Api/getTrxById/" + notrx),
         headers: {"Accept": "application/json"});
     this.setState(() {
       order = json.decode(hasil.body);
@@ -32,7 +32,7 @@ class _DetailOrderState extends State<DetailOrder> {
   Future setFinish(String status) async {
     http.Response hasil = await http.get(
         Uri.encodeFull(
-            "http://192.168.0.117/nomAdmin/Api/finish/" + notrx + "/" + status),
+            "http://192.168.43.184/nomAdmin/Api/finish/" + notrx + "/" + status),
         headers: {"Accept": "application/json"});
     ambildata();
   }

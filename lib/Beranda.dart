@@ -19,7 +19,7 @@ class _BerandaState extends State<Beranda> {
   String dec;
 
   Future<String> getMenu() async {
-    String url = "http://192.168.0.117/nomAdmin/Api/getMakanan";
+    String url = "http://192.168.43.184/nomAdmin/Api/getMakanan";
     var res = await http
         .get(Uri.encodeFull(url), headers: {'accept': 'application/json'});
     if (this.mounted) {
@@ -109,7 +109,7 @@ class _BerandaState extends State<Beranda> {
                     new BoxDecoration(color: Color.fromRGBO(236, 240, 241, 10)),
                 child: Column(
                   children: <Widget>[
-                    Carousel(url: "http://192.168.0.117/nomAdmin/Api/promo"),
+                    Carousel(url: "http://192.168.43.184/nomAdmin/Api/promo"),
                     Divider(),
                     Expanded(
                       child: Padding(
