@@ -1,3 +1,4 @@
+import 'package:KimochiAdmin/state/Server.dart';
 import 'package:flutter/material.dart';
 import 'dart:core';
 import 'package:http/http.dart' as http;
@@ -5,6 +6,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'Recent.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:provider/provider.dart';
+import 'util/const.dart' as b;
 
 class Cabang extends StatefulWidget {
   @override
@@ -20,7 +23,7 @@ class _CabangState extends State<Cabang> {
   var refreshkey = GlobalKey<RefreshIndicatorState>();
   Future ambildata() async {
     http.Response hasil = await http.get(
-        Uri.encodeFull("http://192.168.43.184/nomAdmin/Api/getCabangOrder"),
+        Uri.encodeFull(b.Constants.server + "getCabangOrder"),
         headers: {"Accept": "application/json"});
     this.setState(() {
       cabang = json.decode(hasil.body);
@@ -29,7 +32,7 @@ class _CabangState extends State<Cabang> {
 
   Future notif() async {
     http.Response hasil = await http.get(
-        Uri.encodeFull("http://192.168.43.184/nomAdmin/Api/getNewTrx"),
+        Uri.encodeFull(b.Constants.server + "getNewTrx"),
         headers: {"Accept": "application/json"});
     this.setState(() {
       if (jumlah == "99999") {
@@ -108,9 +111,8 @@ class _CabangState extends State<Cabang> {
         ),
       ),
       // drawer: Draw(),
-      body: Container(
-        decoration: new BoxDecoration(color: Colors.white),
-        margin: EdgeInsets.only(top: 7),
+      body: ChangeNotifierProvider<Server>(
+        builder: (context) => Server(),
         child: Column(
           children: <Widget>[
             Expanded(
@@ -127,93 +129,100 @@ class _CabangState extends State<Cabang> {
                     // Map menu = dataMenu[index];
                     return Column(
                       children: <Widget>[
-                        FlatButton(
-                          child: Row(
-                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Container(
-                                padding: EdgeInsets.only(
-                                    left: 5, right: 5, top: 10, bottom: 10),
-                                margin: EdgeInsets.only(right: 13),
-                                decoration: new BoxDecoration(
-                                  shape: BoxShape.rectangle,
-                                  color: Colors.black,
-                                  borderRadius: new BorderRadius.all(
-                                      new Radius.circular(10.0)),
-                                ),
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width / 7,
-                                  // height: MediaQuery.of(context).size.height / 13,
-                                  child: Text(
-                                    (index + 1).toString() + "",
-                                    softWrap: true,
-                                    style: TextStyle(
-                                        fontSize: 40,
-                                        color: Color.fromRGBO(243, 156, 18, 20),
-                                        fontFamily: 'ZCOOL QingKe HuangYou'),
-                                    textAlign: TextAlign.center,
+                        Container(
+                          margin: EdgeInsets.only(top: 3),
+                          child: FlatButton(
+                            child: Row(
+                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Container(
+                                  padding: EdgeInsets.only(
+                                      left: 5, right: 5, top: 10, bottom: 10),
+                                  margin: EdgeInsets.only(right: 13),
+                                  decoration: new BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    color: Colors.black,
+                                    borderRadius: new BorderRadius.all(
+                                        new Radius.circular(10.0)),
+                                  ),
+                                  child: Container(
+                                    width:
+                                        MediaQuery.of(context).size.width / 7,
+                                    // height: MediaQuery.of(context).size.height / 13,
+                                    child: Text(
+                                      (index + 1).toString() + "",
+                                      softWrap: true,
+                                      style: TextStyle(
+                                          fontSize: 40,
+                                          color:
+                                              Color.fromRGBO(243, 156, 18, 20),
+                                          fontFamily: 'ZCOOL QingKe HuangYou'),
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      cabang[index]['nama'].toString(),
-                                      style: TextStyle(
-                                        fontFamily: 'ZCOOL QingKe HuangYou',
-                                        color: Colors.black,
-                                        fontSize: 21,
-                                      ),
-                                      textAlign: TextAlign.left,
-                                    ),
-                                    Text(
-                                      cabang[index]['alamat'].toString(),
-                                      style: TextStyle(
-                                        fontFamily: 'ZCOOL QingKe HuangYou',
-                                        color: Colors.black,
-                                        fontSize: 15,
-                                      ),
-                                      textAlign: TextAlign.left,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              cabang[index]['jumlah'] == "0"
-                                  ? Text("")
-                                  : Container(
-                                      padding: EdgeInsets.all(6),
-                                      margin:
-                                          EdgeInsets.only(top: 10, left: 10),
-                                      decoration: new BoxDecoration(
-                                        shape: BoxShape.rectangle,
-                                        color: Color.fromRGBO(243, 156, 18, 20),
-                                        borderRadius: new BorderRadius.all(
-                                            new Radius.circular(20.0)),
-                                      ),
-                                      child: Text(
-                                        cabang[index]['jumlah'].toString(),
-                                        softWrap: true,
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        cabang[index]['nama'].toString(),
                                         style: TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.black,
-                                            fontFamily:
-                                                'ZCOOL QingKe HuangYou'),
+                                          fontFamily: 'ZCOOL QingKe HuangYou',
+                                          color: Colors.black,
+                                          fontSize: 21,
+                                        ),
+                                        textAlign: TextAlign.left,
                                       ),
-                                    ),
-                            ],
+                                      Text(
+                                        cabang[index]['alamat'].toString(),
+                                        style: TextStyle(
+                                          fontFamily: 'ZCOOL QingKe HuangYou',
+                                          color: Colors.black,
+                                          fontSize: 15,
+                                        ),
+                                        textAlign: TextAlign.left,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                cabang[index]['jumlah'].toString() == "0"
+                                    ? Text("")
+                                    : Container(
+                                        padding: EdgeInsets.all(6),
+                                        margin:
+                                            EdgeInsets.only(top: 10, left: 10),
+                                        decoration: new BoxDecoration(
+                                          shape: BoxShape.rectangle,
+                                          color:
+                                              Color.fromRGBO(243, 156, 18, 20),
+                                          borderRadius: new BorderRadius.all(
+                                              new Radius.circular(20.0)),
+                                        ),
+                                        child: Text(
+                                          cabang[index]['jumlah'].toString(),
+                                          softWrap: true,
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.black,
+                                              fontFamily:
+                                                  'ZCOOL QingKe HuangYou'),
+                                        ),
+                                      ),
+                              ],
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Recent(
+                                      idCabang: cabang[index]['id'].toString()),
+                                ),
+                              );
+                            },
                           ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Recent(
-                                    idCabang: cabang[index]['id'].toString()),
-                              ),
-                            );
-                          },
                         ),
                         Divider(
                           thickness: 2,

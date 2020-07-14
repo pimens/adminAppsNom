@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-class Constants{
 
+class Constants {
   static String appName = "KimochiAdmin";
 
   //Colors for theme
@@ -11,47 +11,11 @@ class Constants{
   static Color lightBG = Color(0xfffcfcff);
   static Color darkBG = Colors.black;
   static Color ratingBG = Colors.yellow[600];
-
-  static ThemeData lightTheme = ThemeData(
-    backgroundColor: lightBG,
-    primaryColor: lightPrimary,
-    accentColor:  lightAccent,
-    cursorColor: lightAccent,
-    scaffoldBackgroundColor: lightBG,
-    appBarTheme: AppBarTheme(
-      textTheme: TextTheme(
-        title: TextStyle(
-          color: darkBG,
-          fontSize: 18.0,
-          fontWeight: FontWeight.w800,
-        ),
-      ),
-//      iconTheme: IconThemeData(
-//        color: lightAccent,
-//      ),
-    ),
-  );
-
-  static ThemeData darkTheme = ThemeData(
-    brightness: Brightness.dark,
-    backgroundColor: darkBG,
-    primaryColor: darkPrimary,
-    accentColor: darkAccent,
-    scaffoldBackgroundColor: darkBG,
-    cursorColor: darkAccent,
-    appBarTheme: AppBarTheme(
-      textTheme: TextTheme(
-        title: TextStyle(
-          color: lightBG,
-          fontSize: 18.0,
-          fontWeight: FontWeight.w800,
-        ),
-      ),
-//      iconTheme: IconThemeData(
-//        color: darkAccent,
-//      ),
-    ),
-  );
-
+  static String server =
+      "http://192.168.43.184/kimochiAdminLaravel/public/api/makanan/";
+  static String server1 =
+      "http://192.168.43.184/kimochiAdminLaravel/public/uploads/data/thumb/";
+  // static String server = "http://192.168.43.184/nomAdmin/Api/";
+  // static String server1 = "http://192.168.43.184/nomAdmin/";
 
 }

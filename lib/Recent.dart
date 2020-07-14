@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:KimochiAdmin/DetailOrder.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:core';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
+import 'util/const.dart' as b;
 
 class Recent extends StatefulWidget {
   String idCabang;
@@ -21,8 +21,7 @@ class _RecentState extends State<Recent> {
 
   Future ambildata() async {
     http.Response hasil = await http.get(
-        Uri.encodeFull(
-            "http://192.168.43.184/nomAdmin/Api/getTrxByCabang/" + idCabang),
+        Uri.encodeFull(b.Constants.server + "getTrxByCabang/" + idCabang),
         headers: {"Accept": "application/json"});
     this.setState(() {
       current = json.decode(hasil.body);
@@ -56,7 +55,7 @@ class _RecentState extends State<Recent> {
         child: Column(
           children: <Widget>[
             Expanded(
-              child: ListView.builder(                
+              child: ListView.builder(
                 scrollDirection: Axis.vertical,
                 primary: false,
                 shrinkWrap: true,
@@ -106,10 +105,14 @@ class _RecentState extends State<Recent> {
                                 Icon(
                                   current[index]['status'].toString() == "0"
                                       ? Icons.close
-                                      :  current[index]['status'].toString()=="1" ? Icons.check_box:
-                                       current[index]['status'].toString()=="2" ? Icons.playlist_add_check:
-                                       Icons.motorcycle
-                                      ,
+                                      : current[index]['status'].toString() ==
+                                              "1"
+                                          ? Icons.check_box
+                                          : current[index]['status']
+                                                      .toString() ==
+                                                  "2"
+                                              ? Icons.playlist_add_check
+                                              : Icons.motorcycle,
                                   color: Color.fromRGBO(243, 156, 18, 20),
                                   size: 25.0,
                                 ),

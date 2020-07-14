@@ -1,10 +1,9 @@
-import 'package:KimochiAdmin/Cabang.dart';
 import 'package:flutter/material.dart';
 import 'dart:core';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-
+import 'util/const.dart' as b;
 import 'package:url_launcher/url_launcher.dart';
 
 class DetailOrder extends StatefulWidget {
@@ -22,7 +21,7 @@ class _DetailOrderState extends State<DetailOrder> {
 
   Future ambildata() async {
     http.Response hasil = await http.get(
-        Uri.encodeFull("http://192.168.43.184/nomAdmin/Api/getTrxById/" + notrx),
+        Uri.encodeFull(b.Constants.server + "getTrxById/" + notrx),
         headers: {"Accept": "application/json"});
     this.setState(() {
       order = json.decode(hasil.body);
@@ -31,14 +30,12 @@ class _DetailOrderState extends State<DetailOrder> {
 
   Future setFinish(String status) async {
     http.Response hasil = await http.get(
-        Uri.encodeFull(
-            "http://192.168.43.184/nomAdmin/Api/finish/" + notrx + "/" + status),
+        Uri.encodeFull(b.Constants.server + "finish/" + notrx + "/" + status),
         headers: {"Accept": "application/json"});
     ambildata();
   }
 
   void decode() {
-    String na = "iman";
     String tt = "";
     String pembuka = "Terimakasih+Kak+" +
         order[0]['user'] +
@@ -47,7 +44,7 @@ class _DetailOrderState extends State<DetailOrder> {
         "%0ASelamat+kakak+dapat+voucher+exclusive+belanja+10x+%2810poin%29+dengan+varian+apapun+di+Nomimasu+gratis+1+produk+minuman+bebas+pilih.+Dan+pesanan+ini+mendapatkan+1+poin+%F0%9F%91%8D%0D%0A%0D%0ASimpan+struk+digital+ini+ya+Kak%2C+dan+Simpan+No+Kami+ini+juga+dengan+nama+Nomimasu-Sejenis+Minuman+untuk+mendapatkan+promo-promo+menarik+lainnya+serta+undian+kejutan+setiap+akhir+bulannya..%0D%0A%0D%0AArigatou+Gozaimasu+%F0%9F%98%8A%F0%9F%99%8F%F0%9F%8F%BB";
     for (int i = 0; i < order.length; i++) {
       tt = tt +
-          order[i]['jumlah'] +
+          order[i]['jumlah'].toString() +
           "+" +
           order[i]['nama'].toString() +
           "+=+" +
@@ -70,14 +67,13 @@ class _DetailOrderState extends State<DetailOrder> {
   double total() {
     double x = 0;
     for (int i = 0; i < order.length; i++) {
-      x = x + (double.parse(order[i]['subtotal']));
+      x = x + (double.parse(order[i]['subtotal'].toString()));
     }
     return x;
   }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -126,8 +122,9 @@ class _DetailOrderState extends State<DetailOrder> {
                                       child: CircleAvatar(
                                           radius: 20,
                                           backgroundImage: NetworkImage(
-                                              order[index]['gambar']
-                                                  .toString()))),
+                                              b.Constants.server1 +
+                                                  order[index]['gambar']
+                                                      .toString()))),
                                   Text(
                                     order[index]['jumlah'].toString() + "   ",
                                     style: TextStyle(
@@ -197,7 +194,7 @@ class _DetailOrderState extends State<DetailOrder> {
                   ),
                   order.length == 0
                       ? Text("")
-                      : order[0]['status'] == "0"
+                      : order[0]['status'].toString() == "0"
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
@@ -223,7 +220,7 @@ class _DetailOrderState extends State<DetailOrder> {
                           : Text(""),
                   order.length == 0
                       ? Text("")
-                      : order[0]['status'] == "2"
+                      : order[0]['status'].toString() == "2"
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
@@ -250,7 +247,7 @@ class _DetailOrderState extends State<DetailOrder> {
                           : Text(""),
                   order.length == 0
                       ? Text("")
-                      : order[0]['status'] == "3"
+                      : order[0]['status'].toString() == "3"
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
@@ -286,10 +283,10 @@ class _DetailOrderState extends State<DetailOrder> {
                                     color: Colors.black,
                                     onPressed: () {
                                       setFinish("1");
-                                      Navigator.of(context).pushAndRemoveUntil(
-                                          MaterialPageRoute(
-                                              builder: (context) => Cabang()),
-                                          (Route<dynamic> route) => false);
+                                      // Navigator.of(context).pushAndRemoveUntil(
+                                      //     MaterialPageRoute(
+                                      //         builder: (context) => Cabang()),
+                                      //     (Route<dynamic> route) => false);
                                     },
                                     child: Text(
                                       "Selesai",

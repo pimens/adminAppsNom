@@ -1,4 +1,3 @@
-import 'package:KimochiAdmin/DetailOrder.dart';
 import 'package:flutter/material.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'dart:core';
@@ -24,11 +23,10 @@ class MyApp extends StatelessWidget {
 
 class Sp extends StatelessWidget {
   var flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-  @override
   initState() {
     // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
     var initializationSettingsAndroid =
-    AndroidInitializationSettings('app_icon');
+        AndroidInitializationSettings('app_icon');
     var initializationSettingsIOS = IOSInitializationSettings();
     var initializationSettings = InitializationSettings(
         initializationSettingsAndroid, initializationSettingsIOS);
@@ -46,6 +44,7 @@ class Sp extends StatelessWidget {
     //   MaterialPageRoute(builder: (context) => DetailOrder(payload)),
     // );
   }
+
   @override
   Widget build(BuildContext context) {
     return new SplashScreen(

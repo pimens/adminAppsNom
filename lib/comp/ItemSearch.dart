@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:KimochiAdmin/util/const.dart';
 import 'package:expandable/expandable.dart';
 
-import '../Beranda.dart' as dd;
-
 class ItemSearch extends StatefulWidget {
   final String img;
   final String title;
@@ -109,7 +107,7 @@ class _ItemSearchState extends State<ItemSearch> {
                         ),
                       ),
                     ),
-                  ),          
+                  ),
                 ],
               ),
               Expanded(
@@ -120,11 +118,11 @@ class _ItemSearchState extends State<ItemSearch> {
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         child: Row(
-                          children: <Widget>[                           
+                          children: <Widget>[
                             Expanded(
                               child: new Container(
                                   padding: EdgeInsets.only(left: 7.0),
-                                  width: MediaQuery.of(context).size.width,                               
+                                  width: MediaQuery.of(context).size.width,
                                   child: judul(context)),
                             ),
                           ],

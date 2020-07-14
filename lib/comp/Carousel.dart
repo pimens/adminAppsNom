@@ -102,21 +102,23 @@ class _CarouselState extends State<Carousel> {
                                       left: 5.0,
                                       child: Container(
                                         padding: EdgeInsets.all(8),
-                                        margin: EdgeInsets.only(top:10,left:10),
+                                        margin:
+                                            EdgeInsets.only(top: 10, left: 10),
                                         decoration: new BoxDecoration(
                                           shape: BoxShape.rectangle,
-                                            color: Colors.black,
+                                          color: Colors.black,
                                           borderRadius: new BorderRadius.all(
                                               new Radius.circular(5.0)),
                                         ),
                                         child: Text(
-                                         d['deskripsi'].toString(),
+                                          d['deskripsi'].toString(),
                                           softWrap: true,
                                           style: TextStyle(
-                                            fontSize: 20,
-                                             color: Color.fromRGBO(243, 156, 18, 20),
-                                            fontFamily: 'ZCOOL QingKe HuangYou'
-                                          ),
+                                              fontSize: 20,
+                                              color: Color.fromRGBO(
+                                                  243, 156, 18, 20),
+                                              fontFamily:
+                                                  'ZCOOL QingKe HuangYou'),
                                         ),
                                       ),
                                     ),

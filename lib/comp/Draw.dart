@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:KimochiAdmin/Recent.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Draw extends StatelessWidget {
@@ -9,10 +8,12 @@ class Draw extends StatelessWidget {
     data_login = prefs.getStringList('user') ?? [];
     // data_login = prefs.getString('login') ?? '';
   }
-logout() async {
+
+  logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove("user");   
+    prefs.remove("user");
   }
+
   Draw() {
     getValuesSF();
   }
@@ -55,8 +56,8 @@ logout() async {
           //     ),
           //   ),
           // ),
-           InkWell(
-            onTap: () => logout(),            
+          InkWell(
+            onTap: () => logout(),
             child: ListTile(
               title: Text(
                 "Logout",
